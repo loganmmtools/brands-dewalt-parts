@@ -1,47 +1,46 @@
+'use client'
+
+import { useMemo, useState } from 'react'
+import { ChevronDown, ChevronRight, Menu, Search, ShoppingCart, Star, Wrench } from 'lucide-react'
+
+const categories = [
+  { name: 'Miter Saw Parts', icon: '◒' },
+  { name: 'Pressure Washer Parts', icon: '▣' },
+  { name: 'Table Saw Parts', icon: '▰' },
+  { name: 'Planer Parts', icon: '▱' },
+  { name: 'Nailer Parts', icon: '⌁' },
+  { name: 'Grinder Parts', icon: '◉' },
+]
+
+const tools = ['Adhesive Dispenser', 'Band Saw', 'Chop Saw', 'Circular Saw', 'Concrete Vibrator', 'Cut-Out Tool', 'Cutter Saw', 'Generator', 'Impact Wrench', 'Hammer Drill', 'Jig Saw', 'Drill Press', 'Heat Gun', 'Oscillating Tool', 'Router', 'Sander', 'Reciprocating Saw', 'Stapler']
+
+const navItems = ['Power Tools', 'Tool Parts', 'Tools', 'Machinery', 'Bits Blades & Tooling', 'Accessories', 'Amana Tool', 'Brands']
+
+function BrandMark() {
+  return <div className="flex items-center gap-2"><div className="grid h-10 w-10 place-items-center rounded-full border-4 border-foreground text-xl font-black">✦</div><div className="leading-none"><div className="text-[20px] font-black tracking-tight">mm<span className="text-primary">Tool</span>Parts</div><div className="text-[7px] font-bold text-muted-foreground">The Right Parts. Great Service. Every Time.</div></div></div>
+}
+
+function ToolCard({ name, icon }: { name: string; icon: string }) {
+  return <a href="#directory" className="group flex min-h-40 flex-col items-center justify-between border border-border bg-card px-3 py-5 text-center transition hover:-translate-y-1 hover:border-primary hover:shadow-md"><div className="grid h-24 w-full place-items-center text-7xl font-black text-primary drop-shadow-[2px_3px_0_#252525] transition group-hover:scale-105">{icon}</div><span className="text-sm font-bold leading-tight">{name}</span></a>
+}
+
 export default function Page() {
-  return (
-    <main
-      style={{
-        colorScheme: 'light dark',
-        position: 'relative',
-        display: 'flex',
-        minHeight: '100vh',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'light-dark(#fff, #000)',
-        color: 'light-dark(#000, #fff)',
-      }}
-    >
-      <svg
-        aria-hidden="true"
-        style={{ width: 80, height: 80 }}
-        width={80}
-        height={80}
-        fill="none"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="0.5"
-      >
-        <path
-          d="M14.2 14.2H17V6.9375C17 4.76288 15.2371 3 13.0625 3H5.8V5.8M14.2 14.2V7.79063L7.79062 14.2H14.2ZM14.2 14.2V17H6.9375C4.76288 17 3 15.2371 3 13.0625V5.8H5.8M5.8 5.8V12.2313L12.2313 5.8H5.8Z"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <p
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: 'calc(50% + 56px)',
-          transform: 'translateX(-50%)',
-          whiteSpace: 'nowrap',
-          fontSize: '14px',
-          fontWeight: 500,
-          color: 'light-dark(#71717a, #a1a1aa)',
-        }}
-      >
-        Your v0 generation will show here.
-      </p>
-    </main>
-  )
+  const [query, setQuery] = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const filteredTools = useMemo(() => tools.filter((tool) => tool.toLowerCase().includes(query.toLowerCase())), [query])
+
+  return <main className="min-h-screen bg-background text-foreground">
+    <div className="bg-charcoal px-4 py-2 text-[11px] font-bold tracking-wide text-white"><div className="mx-auto flex max-w-7xl items-center justify-between gap-4"><div className="flex items-center gap-2"><Star className="h-4 w-4 fill-primary text-primary" /> Trustpilot <span className="text-primary">4.5</span> ★</div><div className="hidden items-center gap-4 md:flex"><span>TOLL FREE: 1-801-485-8200</span><span className="text-white/40">|</span><span>WELCOME!</span><span className="text-white/40">|</span><span>TRACK ORDER</span><span className="text-white/40">|</span><span>SIGN IN OR CREATE AN ACCOUNT</span></div><button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu"><Menu className="h-5 w-5" /></button></div></div>
+    <header className="border-b border-black/10 bg-primary"><div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4"><BrandMark /><div className="hidden flex-1 items-center justify-end gap-5 md:flex"><label className="flex h-10 w-full max-w-xl items-center bg-white px-3 text-muted-foreground"><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by Model, Tool or Part number (e.g. 6472028, N515802, 0601024034)" className="min-w-0 flex-1 bg-transparent text-sm outline-none" /><Search className="h-5 w-5" /></label><ShoppingCart className="h-7 w-7" /></div><div className="md:hidden"><ShoppingCart className="h-6 w-6" /></div></div></header>
+    <nav className={`bg-charcoal text-white ${menuOpen ? 'block' : 'hidden'} md:block`}><div className="mx-auto flex max-w-7xl flex-col md:flex-row md:items-center md:justify-between">{navItems.map((item) => <a key={item} href="#directory" className="flex items-center justify-between border-b border-white/10 px-4 py-3 text-xs font-bold uppercase tracking-wide hover:bg-white/10 md:border-0 md:px-3"><span>{item}</span><ChevronDown className="h-3 w-3 md:ml-2" /></a>)}</div></nav>
+    <div className="mx-auto max-w-7xl px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Home <ChevronRight className="mx-1 inline h-3 w-3" /> Tool Parts <ChevronRight className="mx-1 inline h-3 w-3" /> DeWalt Parts</div>
+    <section className="border-y border-border bg-white"><div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-8 px-4 py-14 text-center md:flex-row md:text-left"><div className="bg-primary px-5 py-3"><div className="border-y-8 border-black px-3 py-1 text-5xl font-black tracking-tighter text-black md:text-7xl">DEWALT<span className="text-lg">®</span></div></div><h1 className="max-w-xl text-2xl font-black leading-tight md:text-3xl">As an authorized repair center and OEM parts dealer, we source our parts directly from DeWalt to bring you the highest quality replacement parts at the lowest prices.</h1></div></section>
+    <section className="bg-charcoal text-white"><div className="mx-auto grid max-w-7xl grid-cols-1 text-center font-black md:grid-cols-3"><div className="border-b border-white/20 px-4 py-4 md:border-r md:border-b-0">10,000+ 5-Star Reviews</div><div className="border-b border-white/20 px-4 py-4 md:border-r md:border-b-0">OEM Parts Guarantee</div><div className="px-4 py-4">Authorized Parts Dealer</div></div></section>
+    <div className="bg-primary px-4 py-8 text-center"><h2 className="text-4xl font-black md:text-5xl">DeWalt Tool Repair Parts</h2></div>
+    <section className="mx-auto max-w-7xl px-4 py-10"><h2 className="mb-4 text-xl font-black">Popular DeWalt Tools</h2><div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">{categories.map((category) => <ToolCard key={category.name} {...category} />)}</div></section>
+    <section id="directory" className="mx-auto max-w-7xl px-4 pb-12"><div className="flex flex-col items-start justify-between gap-5 md:flex-row md:items-center"><h2 className="text-xl font-black">All DeWalt Tools</h2><label className="flex w-full max-w-lg items-center rounded border border-foreground bg-white px-3 py-3"><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search 84 DeWalt Product Types (Miter Saw, Hammer Drill, etc...)" className="min-w-0 flex-1 text-sm outline-none" /><Search className="h-5 w-5" /></label></div><div className="mt-6 grid grid-cols-1 gap-x-10 gap-y-2 sm:grid-cols-2">{filteredTools.map((tool) => <a key={tool} href="#footer" className="text-lg text-link underline decoration-1 underline-offset-2 hover:text-primary">DeWalt {tool} Parts</a>)}</div>{filteredTools.length === 0 && <p className="mt-5 text-muted-foreground">No tool types match your search.</p>}</section>
+    <a href="#directory" className="flex items-center justify-center gap-5 bg-primary px-4 py-6 text-center text-2xl font-black underline underline-offset-4"><Wrench className="h-12 w-12" />How Do I Find My Model/Part Number?</a>
+    <section className="mx-auto max-w-7xl px-4 py-12"><h2 className="text-xl font-black">Genuine DeWalt Replacement Parts</h2><p className="mx-auto mt-5 max-w-5xl text-lg leading-relaxed">Shop OEM DeWalt replacement parts for drills, saws, sanders, routers, planers and more. M&amp;M Tool Parts is an authorized DeWalt parts dealer and repair center, supplying genuine replacement parts, parts breakdowns, repair articles and great service for thousands of DeWalt tool models.</p><div className="mt-10 grid grid-cols-1 gap-8 text-center sm:grid-cols-3"><div><div className="text-4xl text-[#00a878]">★★★★★</div><p className="mt-3 font-black">10,000+ 5 Star Reviews<br />on Trustpilot</p></div><div><div className="text-5xl text-primary">✺</div><p className="mt-3 font-black">OEM Parts<br />Guarantee</p></div><div><div className="mx-auto w-fit bg-primary px-3 py-2 text-xl font-black text-black">DEWALT</div><p className="mt-3 font-black">Authorized Parts<br />Dealer</p></div></div></section>
+    <footer id="footer" className="border-t-4 border-primary bg-white"><div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-8 text-sm md:grid-cols-5"><div><h3 className="mb-4 font-black uppercase text-primary">Categories</h3><p>Manufacturers<br />Tool Parts<br />Tools<br />Machinery<br />Accessories</p></div><div><h3 className="mb-4 font-black uppercase text-primary">Parts for Tools</h3><p>Bosch Parts<br />DeWalt Parts<br />Festool Parts<br />Jet Parts<br />Makita Parts<br />Milwaukee Parts</p></div><div><h3 className="mb-4 font-black uppercase text-primary">Resources</h3><p>About Us<br />Blog<br />Videos<br />DIY Repair Help</p></div><div><h3 className="mb-4 font-black uppercase text-primary">Customer Service</h3><p>My Account<br />Order Status<br />Shipping &amp; Returns<br />Privacy Policy<br />Terms &amp; Conditions<br />Contact Us<br />FAQ</p></div><div><h3 className="mb-4 font-black uppercase text-primary">Let&apos;s Stay In Touch!</h3><div className="flex gap-3 font-black text-primary"><span>f</span><span>𝕏</span><span>in</span><span>◎</span><span>▶</span></div><div className="mt-4 flex"><input aria-label="Email address" placeholder="Enter your email address" className="min-w-0 border px-2 py-2 text-xs" /><button className="bg-primary px-3 text-xs font-bold">Sign Up</button></div></div></div><div className="bg-charcoal px-4 py-3 text-center text-xs text-white">© Copyright 2026. MMToolParts.com All Rights Reserved.</div></footer>
+  </main>
 }
