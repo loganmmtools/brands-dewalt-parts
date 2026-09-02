@@ -4,12 +4,12 @@ import { useMemo, useState } from 'react'
 import { ChevronDown, ChevronRight, Menu, Search, ShoppingCart, Star, Wrench } from 'lucide-react'
 
 const categories = [
-  { name: 'Miter Saw Parts', icon: '◒' },
-  { name: 'Pressure Washer Parts', icon: '▣' },
-  { name: 'Table Saw Parts', icon: '▰' },
-  { name: 'Planer Parts', icon: '▱' },
-  { name: 'Nailer Parts', icon: '⌁' },
-  { name: 'Grinder Parts', icon: '◉' },
+  { name: 'Miter Saw Parts', image: '/miter-saw.jpg' },
+  { name: 'Pressure Washer Parts', image: '/pressure-washer.jpg' },
+  { name: 'Table Saw Parts', image: '/table-saw.jpg' },
+  { name: 'Planer Parts', image: '/planer.jpg' },
+  { name: 'Nailer Parts', image: '/nailer.jpg' },
+  { name: 'Grinder Parts', image: '/grinder.jpg' },
 ]
 
 const tools = ['Adhesive Dispenser', 'Band Saw', 'Chop Saw', 'Circular Saw', 'Concrete Vibrator', 'Cut-Out Tool', 'Cutter Saw', 'Generator', 'Impact Wrench', 'Hammer Drill', 'Jig Saw', 'Drill Press', 'Heat Gun', 'Oscillating Tool', 'Router', 'Sander', 'Reciprocating Saw', 'Stapler']
@@ -24,8 +24,8 @@ function DeWaltLogo({ className = '' }: { className?: string }) {
   return <img src="/dewalt-logo.svg" alt="DeWalt" className={className} />
 }
 
-function ToolCard({ name, icon }: { name: string; icon: string }) {
-  return <a href="#directory" className="group flex min-h-40 flex-col items-center justify-between border border-border bg-card px-3 py-5 text-center transition hover:-translate-y-1 hover:border-primary hover:shadow-md"><div className="grid h-24 w-full place-items-center text-7xl font-black text-primary drop-shadow-[2px_3px_0_#252525] transition group-hover:scale-105">{icon}</div><span className="text-sm font-bold leading-tight">{name}</span></a>
+function ToolCard({ name, image }: { name: string; image: string }) {
+  return <a href="#directory" className="group flex min-h-40 flex-col items-center justify-between border border-border bg-card px-3 py-4 text-center transition hover:-translate-y-1 hover:border-primary hover:shadow-md"><div className="grid h-24 w-full place-items-center"><img src={image} alt={name.replace(' Parts', '')} className="h-24 w-full object-contain transition group-hover:scale-105" /></div><span className="text-sm font-bold leading-tight">{name}</span></a>
 }
 
 export default function Page() {
